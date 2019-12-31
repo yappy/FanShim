@@ -23,3 +23,8 @@ See `cron.txt`
 $ ps aux | grep python
 $ kill <pid>
 ```
+
+## Print temperature for quick verification
+```
+$ ./gettemp.sh
+```
