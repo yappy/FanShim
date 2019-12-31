@@ -1,26 +1,20 @@
 import time
-import subprocess
-import re
 
 config = {
+	# sysfs file
+	'temp_file': '/sys/class/thermal/thermal_zone0/temp',
 	# polling loop wait
 	'period': 1.0,
 	# thre
 	'threshold': 40.0,
 }
 
-# [0-9]+ "." [0-9]+
-temp_re = re.compile(r'\d+\.\d+')
+def get_temp(temp_f):
+	temp_f.seek(0)
+	return int(temp_f.read()) / 1000.0
 
-def get_temp():
-	temp_str = subprocess.run(['vcgencmd', 'measure_temp'],
-		check=True, capture_output=True).stdout.decode()
-	m = temp_re.search(temp_str)
-	temp = float(m.group())
-	return temp
-
-def main_loop():
-	temp = get_temp()
+def loop(temp_f):
+	temp = get_temp(temp_f)
 	print(temp)
 	if temp >= config['threshold']:
 		pass
@@ -28,8 +22,9 @@ def main_loop():
 		pass
 
 def main():
-	while True:
-		main_loop()
-		time.sleep(config['period'])
+	with open(config['temp_file'], 'r') as f:
+		while True:
+			loop(f)
+			time.sleep(config['period'])
 
 main()
