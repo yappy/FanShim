@@ -1,6 +1,8 @@
+# crontab example
+
 # How to use
 # $ crontab < cron.txt
 # How to verify
 # $ crontab -l
 
-@reboot python3 /root/FanShim/fan.py > /dev/null &
+@reboot /usr/bin/env python3 /home/pi/FanShim/fan.py > /dev/null &
