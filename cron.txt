@@ -1,0 +1,6 @@
+# How to use
+# $ crontab < cron.txt
+# How to verify
+# $ crontab -l
+
+@reboot python3 /root/FanShim/fan.py > /dev/null &
